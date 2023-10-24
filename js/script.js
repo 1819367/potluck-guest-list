@@ -11,6 +11,11 @@ const guestCount = document.querySelector(".attendance");
 // alert when guest list is full (not yet visible)
 const guestFull = document.querySelector(".alert");
 
+// value of assignButton with the guest list is full
+const assignButton = document.querySelector(".assign");
+// vlaue that selects the element with the assigned-items class
+const assignedItems = document.querySelector(".assigned-items");
+
 addGuestButton.addEventListener("click", function () {
     const guest = guestInput.value;
     // console.log(guest);
@@ -21,16 +26,16 @@ addGuestButton.addEventListener("click", function () {
     }
 });
 
-const clearInput = function () {
-    guestInput.value = "";
-}
-
 const addToList = function (guest) {
     const listItem = document.createElement("li");
     listItem.innerText = guest;
     guestList.append(listItem);
 }
 
+const clearInput = function () {
+    guestInput.value = "";
+}
+  
 const updateGuestCount = function () {
     const guests = document.querySelectorAll(".guest-list li");
     guestCount.innerText = guests.length;
@@ -42,3 +47,39 @@ const updateGuestCount = function () {
         guestFull.classList.remove("hide");
     }
 };
+
+const assignItems = function () {
+    const potluckItems = [
+        "potato chips", 
+        "tortilla chiips", 
+        "pretzels", 
+        "potato salad", 
+        "salsa", 
+        "meat balls", 
+        "ham sliders", 
+        "mac and cheese", 
+        "nuts", 
+        "veggies", 
+        "sliced meat",
+        "cake"
+        ];
+
+    const allGuests = document.querySelectorAll(".guest-list li");
+  
+    for (let guest of allGuests) {
+      let randomPotluckIndex = Math.floor(Math.random() * potluckItems.length);
+      let randomPotluckItem = potluckItems[randomPotluckIndex];
+  
+      let listItem = document.createElement("li");
+      listItem.innerText = `${guest.innerText} is bringing ${randomPotluckItem}.`;
+      assignedItems.append(listItem);
+  
+      potluckItems.splice(randomPotluckIndex, 1);
+    }
+  };
+  
+  assignButton.addEventListener("click", function () {
+    assignItems();
+    assignButton.disabled = true;
+  });
+  
